@@ -1,6 +1,11 @@
 from django.db import models
 
-CONSUMABLES = ()
+
+#Типы расходников
+CONSUMABLES = (
+    ('Ф', 'Ф'),
+    ('М', 'М')
+    )
 
 
 # Строжка
@@ -28,6 +33,9 @@ class Surfacing(models.Model):
     robot_work_time = models.TimeField(verbose_name='Время работы робота')
     start_date = models.DateTimeField(verbose_name='Дата начала наплавки')
 
+    def __str__(self):
+        return 'Наплавка (%s) %s' % (self.id, self.start_date)
+
     class Meta:
         verbose_name = 'Наплавка'
         verbose_name_plural = 'Наплавки'
@@ -39,6 +47,9 @@ class HeatTreatment(models.Model):
     final_hardness = models.PositiveIntegerField(verbose_name='Итоговая твердость')
     start_date = models.DateTimeField(verbose_name='Дата погрузки в печь')
 
+    def __str__(self):
+        return 'Теормообработка (%s) %s' % (self.id, self.start_date)
+
     class Meta:
         verbose_name = 'Термообработка'
         verbose_name_plural = 'Термообработки'
@@ -48,6 +59,9 @@ class HeatTreatment(models.Model):
 class Machining(models.Model):
     start_date = models.DateTimeField(verbose_name='Дата начала работы')
     machine_time = models.TimeField(verbose_name='Время работы станка')
+
+    def __str__(self):
+        return 'Механообработка (%s) %s' % (self.id, self.start_date)
 
     class Meta:
         verbose_name = 'Механообработка'
@@ -79,6 +93,9 @@ class PrimaryTable(models.Model):
     received_stamp_date = models.DateTimeField(verbose_name='Дата поступления штампа')
     customer = models.CharField(verbose_name='Заказчик', max_length=128)
     scheme = models.BooleanField(verbose_name='Чертёж')
+
+    def __str__(self):
+        return 'Главная таблица (%s) %s' % (self.id, self.customer)
 
     class Meta:
         verbose_name = 'Главная таблица'
