@@ -38,4 +38,4 @@ def add_gouging(request):
             return redirect('/')
         else:
             print(form.errors)
-    return render(request, 'add_gouging.html', {'form': form})
+    return render(request, 'test.html', {'form': form})

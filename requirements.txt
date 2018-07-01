@@ -1,0 +1,4 @@
+Django==2.0.6
+django-bootstrap4==0.0.6
+django-tempus-dominus==0.1.4
+pytz==2018.4
