@@ -1,7 +1,6 @@
 from django import forms
 import datetime
 from .models import *
-from tempus_dominus.widgets import DateTimePicker, DatePicker, TimePicker
 
 
 # Строжка

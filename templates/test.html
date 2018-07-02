@@ -7,6 +7,7 @@
     <script src="{% static 'js/moment.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'js/locale_ru.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
@@ -45,36 +46,9 @@
             $(function () {
                 $('#example').datetimepicker(
                     {
-                        locale: moment.locale(),
+                        locale: moment.locale('locale_ru.js'),
                         showClear: true,
                         showTodayButton: true,
-                        tooltips: {
-                            today: 'Сегодняшняя дата',
-                            clear: 'Очистить поле',
-                            close: 'Закрыть меню выбора',
-                            selectMonth: 'Выберите месяц',
-                            prevMonth: 'Предыдущий месяц',
-                            nextMonth: 'Следующий месяц',
-                            selectYear: 'Следующий год',
-                            prevYear: 'Предыдущий год',
-                            nextYear: 'Следующий год',
-                            selectDecade: 'Select Decade',
-                            prevDecade: 'Previous Decade',
-                            nextDecade: 'Next Decade',
-                            prevCentury: 'Previous Century',
-                            nextCentury: 'Next Century',
-                            pickHour: 'Выбрать час',
-                            incrementHour: 'Добавить час',
-                            decrementHour: 'Уменьшить час',
-                            pickMinute: 'Выбрать минуты',
-                            incrementMinute: 'Добавить минуты',
-                            decrementMinute: 'Уменьшить минуты',
-                            pickSecond: 'Pick Second',
-                            incrementSecond: 'Increment Second',
-                            decrementSecond: 'Decrement Second',
-                            togglePeriod: 'Toggle Period',
-                            selectTime: 'Выбрать время'
-                        },
                     }
                 );
             });
