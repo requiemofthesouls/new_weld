@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
     {% endblock %}
+    <link rel="shortcut icon" href="media/images/favicon.ico" type="image/x-icon">
     {% block title %}
         <title>New Weld</title>
     {% endblock %}
@@ -33,10 +34,11 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+                    Добавить
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'IS:add_gouging' %}">Добавить строжку</a>
+                    <a class="dropdown-item" href="{% url 'IS:add_surfacing' %}">Добавить наплавку</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
@@ -53,21 +55,21 @@
 </nav>
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                {% block content %}{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            {% block content %}{% endblock %}
 
-            </div>
         </div>
     </div>
+</div>
 
 {% block scripts %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-        <script src="{% static 'js/popper.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    {% endblock %}
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+{% endblock %}
 </body>
 </html>

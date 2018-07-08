@@ -1,7 +1,4 @@
 from django.shortcuts import render, redirect
-from django.db.models import Q
-import operator
-from .models import PrimaryTable
 from .forms import *
 from django.utils import timezone
 
@@ -38,4 +35,20 @@ def add_gouging(request):
             return redirect('/')
         else:
             print(form.errors)
-    return render(request, 'test.html', {'form': form})
+    return render(request, 'add_gouging.html', {'form': form})
+
+
+# Добавление наплавки
+def add_surfacing(request):
+    form = SurfacingForm()
+
+    if request.method == 'POST':
+        form = SurfacingForm(request.POST)
+
+        if form.is_valid():
+            gouging = form.save(commit=True)
+            print('Созданная строжка:', gouging, gouging.start_date)
+            return redirect('/')
+        else:
+            print(form.errors)
+    return render(request, 'add_surfacing.html', {'form': form})

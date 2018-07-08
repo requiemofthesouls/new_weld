@@ -1,5 +1,6 @@
 from django.urls import path
 from IS import views
+
 app_name = 'IS'
 
 urlpatterns = [
@@ -7,5 +8,6 @@ urlpatterns = [
     path('main/search/', views.search, name='search'),
 
     # Формы
-    path('main/add_gouging/', views.add_gouging, name='add_gouging')
+    path('main/add_gouging/', views.add_gouging, name='add_gouging'),
+    path('main/add_surfacing', views.add_surfacing, name='add_surfacing')
 ]
