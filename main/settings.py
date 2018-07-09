@@ -35,8 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'IS',
-    'bootstrap4',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -122,5 +123,5 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DATETIME_INPUT_FORMAT = "%d.%m.%Y %H:%N:%S"
-DATETIME_INPUT_FORMATS = [DATETIME_INPUT_FORMAT, ]
+DATETIME_FORMAT = "%d.%m.%Y %H:%M"
+DATETIME_INPUT_FORMATS = [DATETIME_FORMAT, ]

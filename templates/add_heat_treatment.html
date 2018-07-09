@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block title %}
-    <title>Добавить строжку</title>
+    <title>Добавить термообработку</title>
 {% endblock %}
 
 {% block content %}
@@ -25,9 +25,9 @@
                 <div class="form-group">
                     <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
                         <form role="form" class="form-control-lg mt-4" method="post" id="gouging_form"
-                              action="{% url 'IS:add_gouging' %}">
+                              action="{% url 'IS:add_heat_treatment' %}">
                             {% csrf_token %}
-                            <h2 class="form-signin-heading">Добавить строжку</h2>
+                            <h2 class="form-signin-heading">Добавить термообработку</h2>
                             {% csrf_token %}
                             {% for hidden in form.hidden_fields %}
                                 {{ hidden }}

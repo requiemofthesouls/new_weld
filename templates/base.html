@@ -3,6 +3,7 @@
 <html lang="ru-RU">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% block static %}
         <!-- Bootstrap CSS -->
 
@@ -39,9 +40,10 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'IS:add_gouging' %}">Добавить строжку</a>
                     <a class="dropdown-item" href="{% url 'IS:add_surfacing' %}">Добавить наплавку</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="{% url 'IS:add_heat_treatment' %}">Добавить термообработку</a>
+                    <a class="dropdown-item" href="{% url 'IS:add_machining' %}">Добавить механообработку</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="{% url 'IS:add_primary_table' %}">Добавить главную таблицу</a>
                 </div>
             </li>
         </ul>
@@ -55,14 +57,11 @@
 </nav>
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            {% block content %}{% endblock %}
+{% block content %}
 
-        </div>
-    </div>
-</div>
+{% endblock %}
+
+
 
 {% block scripts %}
     <!-- Optional JavaScript -->
