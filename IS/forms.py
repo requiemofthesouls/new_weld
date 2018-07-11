@@ -14,7 +14,7 @@ class GougingForm(forms.ModelForm):
 
     class Meta:
         model = Gouging
-        fields = ('amount_of_material', 'spent_time', 'start_date')
+        fields = '__all__'
 
 
 # Наплавка
@@ -61,6 +61,9 @@ class MachiningForm(forms.ModelForm):
         fields = ('start_date', 'machine_time')
 
 
+# GougingFormSet = forms.inlineformset_factory(PrimaryTable, Gouging, fields='__all__')
+
+
 # Главная таблица
 class PrimaryTableForm(forms.ModelForm):
     number = forms.IntegerField(help_text='Номер оснастки', label="Номер оснастки")
@@ -81,9 +84,8 @@ class PrimaryTableForm(forms.ModelForm):
         initial=datetime.date.today,
         label='Дата поступления штампа')
     customer = forms.CharField(help_text='Заказчик', label='Заказчик')
-    scheme = forms.BooleanField(help_text='Чертёж', label='Чертёж')
+    scheme = forms.BooleanField(help_text='Чертёж', label='Чертёж', required=False)
 
     class Meta:
         model = PrimaryTable
-        fields = ('number', 'letter', 'gouging', 'surfacing', 'heat_treatment',
-                  'machining', 'received_stamp_date', 'customer', 'scheme')
+        fields = '__all__'

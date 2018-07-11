@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {#TODO: Доделать оформление формы#}
+{#TODO: Доделать валидацию формы#}
 {% load static %}
 {% load widget_tweaks %}
 {% block static %}
@@ -37,6 +38,7 @@
                     </div>
                     <div class="form-group col-sm-6">
                         {% render_field form.gouging.label_tag %}
+{#                        {% include 'modal/gouging.html' %}#}
                         {% render_field form.gouging class='form-control mb-4' placeholder=form.gouging.help_text %}
                         {% render_field form.surfacing.label_tag %}
                         {% render_field form.surfacing class='form-control mb-4' placeholder=form.surfacing.help_text %}

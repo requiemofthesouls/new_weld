@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+
+<!-- Button trigger modal -->
+<button type="button" class="badge badge-primary" data-toggle="modal"
+        data-target="#exampleModal">
+    Создать строжку
+</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Создание строжки</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-control-lg mt-4" method="post" id="gouging_form"
+                      action="{% url 'IS:add_gouging' %}">
+                    {% csrf_token %}
+                    {% render_field form.gouging %}
+                    <button class="btn btn-primary mt-2" type="submit">Добавить</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Закрыть
+                </button>
+                <button type="button" class="btn btn-primary">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
