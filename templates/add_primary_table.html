@@ -37,20 +37,14 @@
                         {% render_field form.customer class='form-control mb-4' placeholder=form.customer.help_text %}
                     </div>
                     <div class="form-group col-sm-6">
-                        {% render_field form.gouging.label_tag %}
-{#                        {% include 'modal/gouging.html' %}#}
-                        {% render_field form.gouging class='form-control mb-4' placeholder=form.gouging.help_text %}
-                        {% render_field form.surfacing.label_tag %}
-                        {% render_field form.surfacing class='form-control mb-4' placeholder=form.surfacing.help_text %}
-                        {% render_field form.heat_treatment.label_tag %}
-                        {% render_field form.heat_treatment class='form-control mb-4' placeholder=form.heat_treatment.help_text %}
-                        {% render_field form.machining.label_tag %}
-                        {% render_field form.machining class='form-control mb-4' placeholder=form.machining.help_text %}
+                        {% include 'modal/gouging.html' %}
+                        {% include 'modal/surfacing.html' %}
+                        {% include 'modal/heat_treatment.html' %}
+                        {% include 'modal/machining.html' %}
                     </div>
                     <div class="form-check m-2">
                         <span class="material_design_checkbox_label">Чертёж</span>
                         {% render_field form.scheme type="checkbox" id="cbx" style="display: none;" %}
-                        {#                        <input type="checkbox" id="cbx" style="display: none;">#}
                         <label for="cbx" class="check">
                             <svg width="18px" height="18px" viewBox="0 0 18 18">
                                 <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
@@ -66,7 +60,7 @@
     {% block scripts %}
         <script>
             $(function () {
-                $('#example').datetimepicker(
+                $('#pickdatetime').datetimepicker(
                     {
                         locale: moment.locale('locale_ru.js'),
                         showClear: true,

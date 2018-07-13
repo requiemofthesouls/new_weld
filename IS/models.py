@@ -1,14 +1,13 @@
 from django.db import models
 
-
-#Типы расходников
+# Типы расходников
 CONSUMABLES = (
     ('Ф', 'Проволока 1'),
     ('D', 'Проволока 2'),
     ('B', 'Проволока 3'),
     ('C', 'Проволока 4'),
     ('М', 'Проволока 5')
-    )
+)
 
 
 # Строжка
@@ -77,19 +76,21 @@ class PrimaryTable(models.Model):
     letter = models.CharField(verbose_name='Литера', max_length=50)
     gouging = models.ForeignKey(Gouging,
                                 on_delete=models.CASCADE,
-                                verbose_name='Строжка')
+                                verbose_name='Строжка',
+                                null=True, default=None, blank=True)
     surfacing = models.ForeignKey(Surfacing,
                                   on_delete=models.CASCADE,
-                                  verbose_name='Наплавка')
+                                  verbose_name='Наплавка',
+                                  null=True, default=None, blank=True)
     heat_treatment = models.ForeignKey(HeatTreatment,
                                        on_delete=models.CASCADE,
                                        null=True, default=None,
                                        blank=True,
-                                       related_name='heat_treatment',
                                        verbose_name='Термообработка')
     machining = models.ForeignKey(Machining,
                                   on_delete=models.CASCADE,
-                                  verbose_name='Механообработка')
+                                  verbose_name='Механообработка',
+                                  null=True, default=None, blank=True)
     received_stamp_date = models.DateTimeField(verbose_name='Дата поступления штампа')
     customer = models.CharField(verbose_name='Заказчик', max_length=128)
     scheme = models.BooleanField(verbose_name='Чертёж')

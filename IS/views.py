@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .forms import *
-from django.utils import timezone
 
 
 def index(request):
@@ -24,8 +23,7 @@ def search(request):
 
 # Добавление строжки
 def add_gouging(request):
-    form = GougingForm()
-
+    form = GougingForm
     if request.method == 'POST':
         form = GougingForm(request.POST)
 
@@ -40,7 +38,7 @@ def add_gouging(request):
 
 # Добавление наплавки
 def add_surfacing(request):
-    form = SurfacingForm()
+    form = SurfacingForm
 
     if request.method == 'POST':
         form = SurfacingForm(request.POST)
@@ -56,7 +54,7 @@ def add_surfacing(request):
 
 # Добавление термообработки
 def add_heat_treatment(request):
-    form = HeatTreatmentForm()
+    form = HeatTreatmentForm
 
     if request.method == 'POST':
         form = HeatTreatmentForm(request.POST)
@@ -72,14 +70,14 @@ def add_heat_treatment(request):
 
 # Добавление механообработки
 def add_machining(request):
-    form = MachiningForm()
+    form = MachiningForm
 
     if request.method == 'POST':
         form = MachiningForm(request.POST)
 
         if form.is_valid():
             machining = form.save(commit=True)
-            print('Созданная термообработка:', machining, machining.start_date)
+            print('Созданная механообработка:', machining, machining.start_date)
             return redirect('/')
         else:
             print(form.errors)
@@ -88,63 +86,46 @@ def add_machining(request):
 
 # Добавление главной таблицы
 def add_primary_table(request):
-    form = PrimaryTableForm
+    # Инициализируем все наши вложенные формы с различными префиксами
+    form = PrimaryTableForm(prefix="prim")
+    gouging_sub_form = GougingForm(prefix='gg')
+    surfacing_sub_form = SurfacingForm(prefix='sg')
+    heat_treatment_sub_form = HeatTreatmentForm(prefix='ht')
+    machining_sub_form = MachiningForm(prefix='mg')
 
-    if request.method == 'POST':
-        form = PrimaryTableForm(request.POST)
+    # Проверяем метод
+    if request.POST:
+        # Load up our two forms again using the prefix keyword argument.
+        form = PrimaryTableForm(request.POST, prefix="prim")
+        gouging_sub_form = GougingForm(request.POST, prefix='gg')
+        surfacing_sub_form = SurfacingForm(request.POST, prefix='sg')
+        heat_treatment_sub_form = HeatTreatmentForm(request.POST, prefix='ht')
+        machining_sub_form = MachiningForm(request.POST, prefix='mg')
 
-        if form.is_valid():
-            primary_table = form.save(commit=True)
-            print('Созданная термообработка:', primary_table)
+        # Убеждаемся в валидности всех форм
+        if form.is_valid() and gouging_sub_form.is_valid() and surfacing_sub_form.is_valid() \
+                and heat_treatment_sub_form.is_valid() and machining_sub_form.is_valid():
+
+            # Подготавливаем модель главной таблицы, но не коммитим её в бд.
+            pt = form.save(commit=False)
+
+            # Сохраняем все поля с ForeignKey (наши подформы)
+            pt.gouging = gouging_sub_form.save()
+            pt.surfacing = surfacing_sub_form.save()
+            pt.heat_treatment = heat_treatment_sub_form.save()
+            pt.machining = machining_sub_form.save()
+
+            # Сохраняем главную таблицу
+            pt.save()
             return redirect('/')
         else:
-            print(form.errors)
-    return render(request, 'add_primary_table.html', {'form': form})
+            print(form.errors, gouging_sub_form.errors, surfacing_sub_form.errors,
+                  heat_treatment_sub_form.errors, machining_sub_form.errors)
 
-
-FORMS = [
-    ("gouging", GougingForm),
-    ("surfacing", SurfacingForm),
-    ("heat_treatment", HeatTreatmentForm),
-    ("machining", MachiningForm)
-]
-
-TEMPLATES = {
-    "gouging": "add_gouging.html",
-    "surfacing": "add_surfacing.html",
-    "heat_treatment": "add_heat_treatment.html",
-    "machining": "add_machining.html",
-}
-
-
-# class AddPrimaryTableWizard(SessionWizardView):
-#     def get_template_names(self):
-#         return [TEMPLATES[self.steps.current]]
-#
-#     def get_context_data(self, form, **kwargs):
-#         context = super(AddStudentWizard, self).get_context_data(form=form, **kwargs)
-#         if self.steps.current == 'contract':
-#             context.update({'ok': 'True'})
-#         return context
-#
-#     def done(self, form_list, **kwargs):
-#         student_form = form_list[0].cleaned_data
-#         contract_form = form_list[1].cleaned_data
-#         s = Student.objects.create(
-#             sex=student_form['sex'],
-#             citizenship=student_form['citizenship'],
-#             doc=student_form['doc'],
-#             student_document_type=student_form['student_document_type'],
-#             parent_document_type=student_form['parent_document_type']
-#         )
-#         f = FioChange.objects.create(
-#             student=s,
-#             event_date=student_form['event_date'],
-#             fio=student_form['fio']
-#         )
-#         c = Contract.objects.create(
-#             student=s,
-#             number=contract_form['number'],
-#             student_home_phone=contract_form['phone']
-#         )
-#         return HttpResponseRedirect(reverse('liststudent'))
+    return render(request, 'add_primary_table.html',
+                  {
+                      'form': form, 'gouging_sub_form': gouging_sub_form,
+                      'surfacing_sub_form': surfacing_sub_form,
+                      'heat_treatment_sub_form': heat_treatment_sub_form,
+                      'machining_sub_form': machining_sub_form
+                  })

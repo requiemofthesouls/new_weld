@@ -2,29 +2,29 @@
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-outline-primary btn-block mb-4 mt-4" data-toggle="modal"
-        data-target="#GougingModal">
-    Создать строжку
+        data-target="#HeatTreatmentModal">
+    Создать термообработку
 </button>
 
 
 <!-- Modal -->
-<div class="modal fade" id="GougingModal" tabindex="-1" role="dialog"
-     aria-labelledby="GougingModalLabel" aria-hidden="true">
+<div class="modal fade" id="HeatTreatmentModal" tabindex="-1" role="dialog"
+     aria-labelledby="HeatTreatmentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="GougingModalLabel">Создание строжки</h5>
+                <h5 class="modal-title" id="HeatTreatmentModalLabel">Создание термообработки</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                {% render_field gouging_sub_form.amount_of_material.label_tag %}
-                {% render_field gouging_sub_form.amount_of_material class='form-control mb-4' placeholder=gouging_sub_form.amount_of_material.help_text %}
-                {% render_field gouging_sub_form.spent_time.label_tag %}
-                {% render_field gouging_sub_form.spent_time class='form-control mb-4' placeholder=gouging_sub_form.spent_time.help_text %}
-                {% render_field gouging_sub_form.start_date.label_tag %}
-                {% render_field gouging_sub_form.start_date class='form-control mb-4' placeholder=gouging_sub_form.start_date.help_text %}
+                {% render_field heat_treatment_sub_form.time_in_oven.label_tag %}
+                {% render_field heat_treatment_sub_form.time_in_oven class='form-control mb-4' %}
+                {% render_field heat_treatment_sub_form.final_hardness.label_tag %}
+                {% render_field heat_treatment_sub_form.final_hardness class='form-control mb-4' %}
+                {% render_field heat_treatment_sub_form.start_date.label_tag %}
+                {% render_field heat_treatment_sub_form.start_date class='form-control mb-4' %}
             </div>
             <div class="modal-footer">
 {#                <button type="button" class="btn btn-secondary" data-dismiss="modal">#}
