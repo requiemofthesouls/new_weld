@@ -27,14 +27,45 @@
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-sm-6">
-                        {% render_field form.number.label_tag %}
-                        {% render_field form.number class='form-control mb-4' placeholder=form.number.help_text %}
-                        {% render_field form.letter.label_tag %}
-                        {% render_field form.letter class='form-control mb-4' placeholder=form.letter.help_text %}
-                        {% render_field form.received_stamp_date.label_tag %}
-                        {% render_field form.received_stamp_date class='form-control mb-4' placeholder=form.received_stamp_date.help_text %}
-                        {% render_field form.customer.label_tag %}
-                        {% render_field form.customer class='form-control mb-4' placeholder=form.customer.help_text %}
+
+                        {% for hidden_field in form.hidden_fields %}
+                            {{ hidden_field }}
+                        {% endfor %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% for field in form.visible_fields %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+
+                                {% if form.is_bound %}
+                                    {% if field.errors %}
+                                        {% render_field field class="form-control is-invalid" %}
+                                        {% for error in field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field field class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field field class="form-control" %}
+                                {% endif %}
+
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+
                     </div>
                     <div class="form-group col-sm-6">
                         {% include 'modal/gouging.html' %}
@@ -42,16 +73,7 @@
                         {% include 'modal/heat_treatment.html' %}
                         {% include 'modal/machining.html' %}
                     </div>
-                    <div class="form-check m-2">
-                        <span class="material_design_checkbox_label">Чертёж</span>
-                        {% render_field form.scheme type="checkbox" id="cbx" style="display: none;" %}
-                        <label for="cbx" class="check">
-                            <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                <polyline points="1 9 7 14 15 4"></polyline>
-                            </svg>
-                        </label>
-                    </div>
+
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Создать</button>
             </form>

@@ -19,17 +19,44 @@
                 </button>
             </div>
             <div class="modal-body">
-                {% render_field gouging_sub_form.amount_of_material.label_tag %}
-                {% render_field gouging_sub_form.amount_of_material class='form-control mb-4' placeholder=gouging_sub_form.amount_of_material.help_text %}
-                {% render_field gouging_sub_form.spent_time.label_tag %}
-                {% render_field gouging_sub_form.spent_time class='form-control mb-4' placeholder=gouging_sub_form.spent_time.help_text %}
-                {% render_field gouging_sub_form.start_date.label_tag %}
-                {% render_field gouging_sub_form.start_date class='form-control mb-4' placeholder=gouging_sub_form.start_date.help_text %}
+                {% for hidden_field in gouging_sub_form.hidden_fields %}
+                    {{ hidden_field }}
+                {% endfor %}
+
+                {% if gouging_sub_form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in gouging_sub_form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% for field in gouging_sub_form.visible_fields %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+
+                        {% if gouging_sub_form.is_bound %}
+                            {% if field.errors %}
+                                {% render_field field class="form-control is-invalid" %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                {% render_field field class="form-control is-valid" %}
+                            {% endif %}
+                        {% else %}
+                            {% render_field field class="form-control" %}
+                        {% endif %}
+
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
             <div class="modal-footer">
-{#                <button type="button" class="btn btn-secondary" data-dismiss="modal">#}
-{#                    Закрыть#}
-{#                </button>#}
                 <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">
                     Сохранить
                 </button>

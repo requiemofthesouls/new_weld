@@ -14,7 +14,6 @@ class GougingForm(forms.ModelForm):
             'id': 'pickdatetime'
         }),
         help_text='Дата начала строжки',
-        initial=datetime.date.today,
         label='Дата начала строжки')
 
     class Meta:
