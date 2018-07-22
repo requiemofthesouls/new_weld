@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {#TODO: Доделать оформление формы#}
-{#TODO: Доделать валидацию формы#}
 {% load static %}
 {% load widget_tweaks %}
 {% block static %}
@@ -87,6 +86,8 @@
                         locale: moment.locale('locale_ru.js'),
                         showClear: true,
                         showTodayButton: true,
+                        ignoreReadonly: true,
+                        allowInputToggle: true,
                     }
                 );
             });
@@ -99,6 +100,8 @@
                         locale: moment.locale('locale_ru.js'),
                         showClear: true,
                         showTodayButton: true,
+                        ignoreReadonly: true,
+                        allowInputToggle: true
                     }
                 );
             });
@@ -111,6 +114,8 @@
                         locale: moment.locale('locale_ru.js'),
                         showClear: true,
                         showTodayButton: true,
+                        ignoreReadonly: true,
+                        allowInputToggle: true
                     }
                 );
             });
@@ -123,6 +128,8 @@
                         locale: moment.locale('locale_ru.js'),
                         showClear: true,
                         showTodayButton: true,
+                        ignoreReadonly: true,
+                        allowInputToggle: true
                     }
                 );
             });
@@ -135,6 +142,8 @@
                         locale: moment.locale('locale_ru.js'),
                         showClear: true,
                         showTodayButton: true,
+                        ignoreReadonly: true,
+                        allowInputToggle: true
                     }
                 );
             });
