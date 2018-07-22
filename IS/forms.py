@@ -1,5 +1,5 @@
 from django import forms
-import datetime
+from datetime import datetime
 from .models import *
 
 
@@ -11,9 +11,10 @@ class GougingForm(forms.ModelForm):
                                     label='Затраченное время (ч)')
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
-            'id': 'pickdatetime'
+            'id': 'gouging_pickdatetime'
         }),
         help_text='Дата начала строжки',
+        initial=datetime.now().strftime("%d.%m.%Y %H:%M"),
         label='Дата начала строжки')
 
     class Meta:
@@ -30,9 +31,10 @@ class SurfacingForm(forms.ModelForm):
                                          label='Время работы робота (ч)')
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
-            'id': 'pickdatetime'
+            'id': 'surfacing_pickdatetime'
         }),
         help_text='Дата начала наплавки',
+        initial=datetime.now().strftime("%d.%m.%Y %H:%M"),
         label='Дата начала наплавки')
 
     class Meta:
@@ -48,9 +50,10 @@ class HeatTreatmentForm(forms.ModelForm):
                                         label='Итоговая твердость')
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
-            'id': 'pickdatetime'
+            'id': 'heat_treatment_pickdatetime'
         }),
         help_text='Дата начала термообработки',
+        initial=datetime.now().strftime("%d.%m.%Y %H:%M"),
         label='Дата начала термообработки')
 
     class Meta:
@@ -62,9 +65,10 @@ class HeatTreatmentForm(forms.ModelForm):
 class MachiningForm(forms.ModelForm):
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
-            'id': 'pickdatetime'
+            'id': 'machining_pickdatetime'
         }),
         help_text='Дата начала механообработки',
+        initial=datetime.now().strftime("%d.%m.%Y %H:%M"),
         label='Дата начала механообработки')
     machine_time = forms.IntegerField(min_value=0, help_text='Время работы станка (ч)',
                                       label='Время работы станка (ч)')
@@ -76,14 +80,14 @@ class MachiningForm(forms.ModelForm):
 
 # Главная таблица
 class PrimaryTableForm(forms.ModelForm):
-    number = forms.IntegerField(help_text='Номер оснастки', label="Номер оснастки")
+    number = forms.IntegerField(min_value=0, help_text='Номер оснастки', label="Номер оснастки")
     letter = forms.CharField(help_text='Литера', label='Литера')
     received_stamp_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
-            'id': 'pickdatetime'
+            'id': 'pt_pickdatetime'
         }),
         help_text='Дата поступления штампа',
-        initial=datetime.date.today,
+        initial=datetime.now().strftime("%d.%m.%Y %H:%M"),
         label='Дата поступления штампа')
     customer = forms.CharField(help_text='Заказчик', label='Заказчик')
     scheme = forms.BooleanField(help_text='Чертёж', label='Чертёж', required=False)

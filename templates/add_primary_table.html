@@ -82,7 +82,55 @@
     {% block scripts %}
         <script>
             $(function () {
-                $('#pickdatetime').datetimepicker(
+                $('#pt_pickdatetime').datetimepicker(
+                    {
+                        locale: moment.locale('locale_ru.js'),
+                        showClear: true,
+                        showTodayButton: true,
+                    }
+                );
+            });
+        </script>
+
+        <script>
+            $(function () {
+                $('#gouging_pickdatetime').datetimepicker(
+                    {
+                        locale: moment.locale('locale_ru.js'),
+                        showClear: true,
+                        showTodayButton: true,
+                    }
+                );
+            });
+        </script>
+
+        <script>
+            $(function () {
+                $('#surfacing_pickdatetime').datetimepicker(
+                    {
+                        locale: moment.locale('locale_ru.js'),
+                        showClear: true,
+                        showTodayButton: true,
+                    }
+                );
+            });
+        </script>
+
+        <script>
+            $(function () {
+                $('#heat_treatment_pickdatetime').datetimepicker(
+                    {
+                        locale: moment.locale('locale_ru.js'),
+                        showClear: true,
+                        showTodayButton: true,
+                    }
+                );
+            });
+        </script>
+
+        <script>
+            $(function () {
+                $('#machining_pickdatetime').datetimepicker(
                     {
                         locale: moment.locale('locale_ru.js'),
                         showClear: true,

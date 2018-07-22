@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <div id="carouselExampleControls" class="carousel slide mt-4" data-ride="carousel">
+                <div id="carouselExampleControls" class="carousel slide mt-4 mb-4" data-ride="carousel">
                     <div class="carousel-inner">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
@@ -21,7 +21,7 @@
                                  src="https://www.awebtoknow.com/wp-content/uploads/2017/10/best-welding-gloves.jpg"
                                  alt="Second slide">
                             <div class="carousel-caption d-none d-md-block">
-                                <a class="btn btn-lg btn-secondary" href="{% url 'IS:main' %}">Главная таблица</a>
+                                <a class="btn btn-lg btn-secondary" href="{% url 'IS:main' %}">Все таблицы</a>
                             </div>
                         </div>
                         <div class="carousel-item">
@@ -39,6 +39,8 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+                <a href="{% url 'IS:main' %}" class="btn btn-lg btn-outline-primary mb-4 btn-block">Все оснастки</a>
+                <a href="{% url 'IS:add_primary_table' %}" class="btn btn-lg btn-outline-primary mb-4 btn-block">Добавить оснастку</a>
             </div>
             <!-- /.col-sm -->
         </div>

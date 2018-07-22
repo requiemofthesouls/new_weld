@@ -95,7 +95,7 @@ def add_primary_table(request):
 
     # Проверяем метод
     if request.POST:
-        # Load up our two forms again using the prefix keyword argument.
+        # Загружаем наши формы снова, указываем в аргументе какой метод используем
         form = PrimaryTableForm(request.POST, prefix="prim")
         gouging_sub_form = GougingForm(request.POST, prefix='gg')
         surfacing_sub_form = SurfacingForm(request.POST, prefix='sg')
