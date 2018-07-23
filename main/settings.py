@@ -23,6 +23,7 @@ SECRET_KEY = 'b7!!qwto(=f+1ip*_0b@r3^cezx+cu4e)k17$!v2baa12t69&l'
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECURITY WARNING: don't run with debug turned on in production!
 
+
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
@@ -100,7 +101,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

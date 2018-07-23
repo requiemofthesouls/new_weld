@@ -1,0 +1,12 @@
+.idea/*
+
+*.pyc
+*.sqlite3
+
+tmp/
+venv/
+migrations/
+
+
+.DS_Store
+
