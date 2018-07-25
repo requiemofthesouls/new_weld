@@ -1,20 +1,10 @@
 from django.db import models
 
-# Типы расходников
-CONSUMABLES = (
-    ('Ф', 'Проволока 1'),
-    ('D', 'Проволока 2'),
-    ('B', 'Проволока 3'),
-    ('C', 'Проволока 4'),
-    ('М', 'Проволока 5')
-)
-
 
 # Строжка
 class Gouging(models.Model):
     amount_of_material = models.PositiveIntegerField(
         verbose_name='Количество затраченного материала')
-    spent_time = models.PositiveIntegerField(verbose_name='Затраченное время (ч)')
     start_date = models.DateTimeField(verbose_name='Дата начала строжки')
 
     def __str__(self):
@@ -27,12 +17,21 @@ class Gouging(models.Model):
 
 # Наплавка
 class Surfacing(models.Model):
+    # TODO: Сделать разделение наплавки на ручную и роботом
+
     amount_of_material = models.PositiveIntegerField(
         verbose_name='Количество наплавленного')
+    # Типы расходников
+    CONSUMABLES = (
+        ('Ф', 'Проволока 1'),
+        ('D', 'Проволока 2'),
+        ('B', 'Проволока 3'),
+        ('C', 'Проволока 4'),
+        ('М', 'Проволока 5')
+    )
     type_of_consumables = models.CharField(choices=CONSUMABLES,
                                            max_length=50,
                                            verbose_name='Тип расходника')
-    robot_work_time = models.PositiveIntegerField(verbose_name='Время работы робота (ч)')
     start_date = models.DateTimeField(verbose_name='Дата начала наплавки')
 
     def __str__(self):
@@ -45,7 +44,6 @@ class Surfacing(models.Model):
 
 # Термообработка
 class HeatTreatment(models.Model):
-    time_in_oven = models.PositiveIntegerField(verbose_name='Время в печи (ч)')
     final_hardness = models.PositiveIntegerField(verbose_name='Итоговая твердость')
     start_date = models.DateTimeField(verbose_name='Дата погрузки в печь')
 
@@ -59,8 +57,7 @@ class HeatTreatment(models.Model):
 
 # Механообработка
 class Machining(models.Model):
-    start_date = models.DateTimeField(verbose_name='Дата начала работы')
-    machine_time = models.PositiveIntegerField(verbose_name='Время работы станка (ч)')
+    start_date = models.DateTimeField(verbose_name='Дата начала м/о')
 
     def __str__(self):
         return 'Механообработка (№%s) от %s' % (self.id, self.start_date)
