@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'new_weld.urls'
+ROOT_URLCONF = 'main.urls'
 
 TEMPLATES = [
     {

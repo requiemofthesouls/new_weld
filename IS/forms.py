@@ -2,16 +2,12 @@ from datetime import datetime
 
 from django import forms
 
-from .models import (Gouging, Surfacing, HeatTreatment,
-                     Machining, PrimaryTable)
+from .models import (Gouging, HeatTreatment, AdditionalSurfacing,
+                     Machining, PrimaryTable, Surfacing)
 
 
 # Строжка
 class GougingForm(forms.ModelForm):
-    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество затраченного материала',
-                                            label='Количество затраченного материала')
-    # spent_time = forms.IntegerField(min_value=0, help_text='Затраченное время (ч)',
-    #                                 label='Затраченное время (ч)')
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
             'id': 'gouging_pickdatetime',
@@ -26,10 +22,48 @@ class GougingForm(forms.ModelForm):
         fields = ('amount_of_material', 'start_date')
 
 
+# Дополнительная наплавка
+class AdditionalSurfacingForm(forms.ModelForm):
+    # Типы труда, с помощью которых осуществляться наплавка.
+    TYPES_OF_WORK = (
+        ('Manual', 'Ручная'),
+        ('Robot', 'Робот')
+    )
+    type_of_surfacing = forms.ChoiceField(choices=TYPES_OF_WORK,
+                                          label='Тип наплавки',
+                                          initial='', required=False)
+    # Типы расходников
+    CONSUMABLES = (
+        ('Ф', 'Проволока 1'),
+        ('D', 'Проволока 2'),
+        ('B', 'Проволока 3'),
+        ('C', 'Проволока 4'),
+        ('М', 'Проволока 5')
+    )
+    type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника',
+                                            initial='', required=False)
+    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
+                                            label='Количество наплавленного',
+                                            initial='', required=False)
+
+    class Meta:
+        model = AdditionalSurfacing
+        fields = ('type_of_surfacing',
+                  'type_of_consumables',
+                  'amount_of_material',)
+
+
 # Наплавка
 class SurfacingForm(forms.ModelForm):
-    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
-                                            label='Количество наплавленного')
+    # Типы труда, с помощью которых осуществляться наплавка.
+    TYPES_OF_WORK = (
+        ('Manual', 'Ручная'),
+        ('Robot', 'Робот')
+    )
+    type_of_surfacing = forms.ChoiceField(choices=TYPES_OF_WORK,
+                                          label='Тип наплавки',
+                                          initial='Робот')
+
     # Типы расходников
     CONSUMABLES = (
         ('Ф', 'Проволока 1'),
@@ -39,8 +73,9 @@ class SurfacingForm(forms.ModelForm):
         ('М', 'Проволока 5')
     )
     type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника')
-    # robot_work_time = forms.IntegerField(min_value=0, help_text='Время работы робота (ч)',
-    #                                      label='Время работы робота (ч)')
+
+    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
+                                            label='Количество наплавленного')
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
             'id': 'surfacing_pickdatetime',
@@ -52,13 +87,14 @@ class SurfacingForm(forms.ModelForm):
 
     class Meta:
         model = Surfacing
-        fields = ('amount_of_material', 'type_of_consumables', 'start_date')
+        fields = ('type_of_surfacing',
+                  'type_of_consumables',
+                  'amount_of_material',
+                  'start_date')
 
 
 # Термообработка
 class HeatTreatmentForm(forms.ModelForm):
-    # time_in_oven = forms.IntegerField(min_value=0, help_text='Время в печи (ч)',
-    #                                   label='Время в печи (ч)')
     final_hardness = forms.IntegerField(min_value=0, help_text='Итоговая твердость',
                                         label='Итоговая твердость')
     start_date = forms.DateTimeField(widget=forms.TextInput(
@@ -85,9 +121,6 @@ class MachiningForm(forms.ModelForm):
         help_text='Время механообработки',
         initial=datetime.now().strftime("%d.%m.%Y %H:%M"),
         label='Время начала м/о')
-
-    # machine_time = forms.IntegerField(min_value=0, help_text='Время работы станка (ч)',
-    #                                   label='Время работы станка (ч)')
 
     class Meta:
         model = Machining

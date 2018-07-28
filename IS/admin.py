@@ -17,6 +17,13 @@ class SurfacingAdmin(admin.ModelAdmin):
 admin.site.register(Surfacing, SurfacingAdmin)
 
 
+class AdditionalSurfacingAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in AdditionalSurfacing._meta.fields]
+
+
+admin.site.register(AdditionalSurfacing, AdditionalSurfacingAdmin)
+
+
 class HeatTreatmentAdmin(admin.ModelAdmin):
     list_display = [field.name for field in HeatTreatment._meta.fields]
 

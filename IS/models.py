@@ -15,23 +15,52 @@ class Gouging(models.Model):
         verbose_name_plural = 'Строжки'
 
 
+class AdditionalSurfacing(models.Model):
+    # Типы труда, с помощью которых осуществляться наплавка.
+    type_of_surfacing = models.CharField(max_length=50,
+                                         verbose_name='Тип наплавки',
+                                         blank=True,
+                                         null=True,
+                                         default=None)
+    # Виды расходников, чем осуществляется наплавка.
+    type_of_consumables = models.CharField(max_length=50,
+                                           verbose_name='Тип расходника',
+                                           blank=True,
+                                           null=True,
+                                           default=None
+                                           )
+    amount_of_material = models.PositiveIntegerField(verbose_name='Количество наплавленного',
+                                                     blank=True,
+                                                     null=True,
+                                                     default=None
+                                                     )
+
+    def __str__(self):
+        return 'Дополнительная наплавка (№%s)' % self.id
+
+    class Meta:
+        verbose_name = 'Дополнительная наплавка'
+        verbose_name_plural = 'Дополнительные наплавки'
+
+
 # Наплавка
 class Surfacing(models.Model):
     # TODO: Сделать разделение наплавки на ручную и роботом
-
+    # Типы труда, с помощью которых осуществляться наплавка.
+    type_of_surfacing = models.CharField(max_length=50,
+                                         verbose_name='Тип наплавки')
+    # Виды расходников, чем осуществляется наплавка.
+    type_of_consumables = models.CharField(max_length=50,
+                                           verbose_name='Тип расходника')
     amount_of_material = models.PositiveIntegerField(
         verbose_name='Количество наплавленного')
-    # Типы расходников
-    CONSUMABLES = (
-        ('Ф', 'Проволока 1'),
-        ('D', 'Проволока 2'),
-        ('B', 'Проволока 3'),
-        ('C', 'Проволока 4'),
-        ('М', 'Проволока 5')
-    )
-    type_of_consumables = models.CharField(choices=CONSUMABLES,
-                                           max_length=50,
-                                           verbose_name='Тип расходника')
+    # Дополнительная наплавка
+    additional_surfacing = models.ForeignKey(AdditionalSurfacing,
+                                             on_delete=models.CASCADE,
+                                             verbose_name='Дополнительная наплавка',
+                                             blank=True,
+                                             null=True,
+                                             default=None)
     start_date = models.DateTimeField(verbose_name='Дата начала наплавки')
 
     def __str__(self):
@@ -40,6 +69,11 @@ class Surfacing(models.Model):
     class Meta:
         verbose_name = 'Наплавка'
         verbose_name_plural = 'Наплавки'
+
+
+# Т.к. для каждой наплавки надо вести учет затраченного
+# материала - создам для этого таблицу для динамической формы,
+# свяжу её с родительской таблицей "Наплавка" по внешнему ключу.
 
 
 # Термообработка
