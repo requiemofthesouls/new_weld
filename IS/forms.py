@@ -2,8 +2,12 @@ from datetime import datetime
 
 from django import forms
 
-from .models import (Gouging, HeatTreatment, AdditionalSurfacing,
-                     Machining, PrimaryTable, Surfacing)
+from .models import (Gouging,
+                     HeatTreatment,
+                     AdditionalSurfacing,
+                     Machining,
+                     PrimaryTable,
+                     Surfacing)
 
 
 # Строжка
@@ -31,7 +35,7 @@ class AdditionalSurfacingForm(forms.ModelForm):
     )
     type_of_surfacing = forms.ChoiceField(choices=TYPES_OF_WORK,
                                           label='Тип наплавки',
-                                          initial='', required=False)
+                                          initial='Manual', required=False)
     # Типы расходников
     CONSUMABLES = (
         ('Ф', 'Проволока 1'),
@@ -41,7 +45,38 @@ class AdditionalSurfacingForm(forms.ModelForm):
         ('М', 'Проволока 5')
     )
     type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника',
+                                            initial='D', required=False)
+    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
+                                            label='Количество наплавленного',
                                             initial='', required=False)
+
+    class Meta:
+        model = AdditionalSurfacing
+        fields = ('type_of_surfacing',
+                  'type_of_consumables',
+                  'amount_of_material',)
+
+
+# Окончательная наплавка
+class FinalSurfacingForm(forms.ModelForm):
+    # Типы труда, с помощью которых осуществляться наплавка.
+    TYPES_OF_WORK = (
+        ('Manual', 'Ручная'),
+        ('Robot', 'Робот')
+    )
+    type_of_surfacing = forms.ChoiceField(choices=TYPES_OF_WORK,
+                                          label='Тип наплавки',
+                                          initial='Manual', required=False)
+    # Типы расходников
+    CONSUMABLES = (
+        ('Ф', 'Проволока 1'),
+        ('D', 'Проволока 2'),
+        ('B', 'Проволока 3'),
+        ('C', 'Проволока 4'),
+        ('М', 'Проволока 5')
+    )
+    type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника',
+                                            initial='D', required=False)
     amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
                                             label='Количество наплавленного',
                                             initial='', required=False)
@@ -62,7 +97,7 @@ class SurfacingForm(forms.ModelForm):
     )
     type_of_surfacing = forms.ChoiceField(choices=TYPES_OF_WORK,
                                           label='Тип наплавки',
-                                          initial='Робот')
+                                          initial='Robot')
 
     # Типы расходников
     CONSUMABLES = (

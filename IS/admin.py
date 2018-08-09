@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from IS.models import *
+from IS.models import (PrimaryTable,
+                       Gouging,
+                       Surfacing,
+                       AdditionalSurfacing,
+                       HeatTreatment,
+                       Machining)
 
 
 class GougingAdmin(admin.ModelAdmin):

@@ -4,7 +4,8 @@ from IS import views
 app_name = 'IS'
 
 urlpatterns = [
-    path('main/', views.main, name='main'),
+    path('main/', views.Main.as_view(), name='main'),
+    path('main/<int:pk>/', views.Main.as_view(), name='main-update'),
     path('main/search/', views.search, name='search'),
 
     # Формы

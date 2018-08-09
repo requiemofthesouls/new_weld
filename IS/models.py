@@ -21,18 +21,18 @@ class AdditionalSurfacing(models.Model):
                                          verbose_name='Тип наплавки',
                                          blank=True,
                                          null=True,
-                                         default=None)
+                                         default="")
     # Виды расходников, чем осуществляется наплавка.
     type_of_consumables = models.CharField(max_length=50,
                                            verbose_name='Тип расходника',
                                            blank=True,
                                            null=True,
-                                           default=None
+                                           default=""
                                            )
     amount_of_material = models.PositiveIntegerField(verbose_name='Количество наплавленного',
                                                      blank=True,
                                                      null=True,
-                                                     default=None
+                                                     default=""
                                                      )
 
     def __str__(self):
@@ -56,11 +56,19 @@ class Surfacing(models.Model):
         verbose_name='Количество наплавленного')
     # Дополнительная наплавка
     additional_surfacing = models.ForeignKey(AdditionalSurfacing,
+                                             related_name='additional_surfacing',
                                              on_delete=models.CASCADE,
                                              verbose_name='Дополнительная наплавка',
                                              blank=True,
                                              null=True,
                                              default=None)
+    final_surfacing = models.ForeignKey(AdditionalSurfacing,
+                                        related_name='final_surfacing',
+                                        on_delete=models.CASCADE,
+                                        verbose_name='Окончательная наплавка',
+                                        blank=True,
+                                        null=True,
+                                        default=None)
     start_date = models.DateTimeField(verbose_name='Дата начала наплавки')
 
     def __str__(self):

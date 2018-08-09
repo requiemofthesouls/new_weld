@@ -1,6 +1,18 @@
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 
-from .forms import *
+from .forms import (
+    PrimaryTableForm,
+    GougingForm,
+    SurfacingForm,
+    AdditionalSurfacingForm,
+    HeatTreatmentForm,
+    MachiningForm,
+    FinalSurfacingForm
+)
+from .models import (
+    PrimaryTable,
+)
 
 
 def index(request):
@@ -8,9 +20,30 @@ def index(request):
     return render(request, 'index.html', context_dict)
 
 
-def main(request):
-    context_dict = {'tables': PrimaryTable.objects.order_by('-received_stamp_date')}
-    return render(request, 'main.html', context_dict)
+class Main(ListView):
+    template_name = 'main.html'
+    context_object_name = 'tables'
+    queryset = PrimaryTable.objects.order_by('-received_stamp_date')
+
+
+# def main(request):
+#     context_dict = {'tables': PrimaryTable.objects.order_by('-received_stamp_date')}
+#     return render(request, 'main.html', context_dict)
+
+
+# class Main(UpdateView):
+#     model = PrimaryTable
+#     template_name = 'primary_tables_edit.html'
+#     form_class = PrimaryTableForm
+#     queryset = PrimaryTable.objects.order_by('-received_stamp_date')
+#
+#     def get_object(self, queryset=queryset):
+#         id_ = self.kwargs.get('id')
+#         return get_object_or_404(PrimaryTable, id=id_)
+#
+#     def form_valid(self, form):
+#         print(form.cleaned_data)
+#         return super().form_valid(form)
 
 
 def search(request):
@@ -88,22 +121,24 @@ def add_machining(request):
 # Добавление главной таблицы
 def add_primary_table(request):
     # Инициализируем все наши вложенные формы с различными префиксами
-    form = PrimaryTableForm(prefix="prim")
-    gouging_sub_form = GougingForm(prefix='gg')
-    surfacing_sub_form = SurfacingForm(prefix='sg')
-    additional_surfacing_sub_form = AdditionalSurfacingForm(prefix='ad-sg')
-    heat_treatment_sub_form = HeatTreatmentForm(prefix='ht')
-    machining_sub_form = MachiningForm(prefix='mg')
+    form = PrimaryTableForm(prefix="primary_table_form")
+    gouging_sub_form = GougingForm(prefix='gouging_sub_form')
+    surfacing_sub_form = SurfacingForm(prefix='surfacing_sub_form')
+    additional_surfacing_sub_form = AdditionalSurfacingForm(prefix='additional_surfacing_sub_form')
+    final_surfacing_sub_form = FinalSurfacingForm(prefix='final_surfacing_sub_form')
+    heat_treatment_sub_form = HeatTreatmentForm(prefix='heat_treatment_sub_form')
+    machining_sub_form = MachiningForm(prefix='machining_sub_form')
 
     # Проверяем метод
     if request.POST:
         # Загружаем наши формы снова, указываем в аргументе какой метод используем
-        form = PrimaryTableForm(request.POST, prefix="prim")
-        gouging_sub_form = GougingForm(request.POST, prefix='gg')
-        surfacing_sub_form = SurfacingForm(request.POST, prefix='sg')
-        additional_surfacing_sub_form = AdditionalSurfacingForm(request.POST, prefix='ad-sg')
-        heat_treatment_sub_form = HeatTreatmentForm(request.POST, prefix='ht')
-        machining_sub_form = MachiningForm(request.POST, prefix='mg')
+        form = PrimaryTableForm(request.POST, prefix="primary_table_form")
+        gouging_sub_form = GougingForm(request.POST, prefix='gouging_sub_form')
+        surfacing_sub_form = SurfacingForm(request.POST, prefix='surfacing_sub_form')
+        additional_surfacing_sub_form = AdditionalSurfacingForm(request.POST, prefix='additional_surfacing_sub_form')
+        final_surfacing_sub_form = FinalSurfacingForm(request.POST, prefix='final_surfacing_sub_form')
+        heat_treatment_sub_form = HeatTreatmentForm(request.POST, prefix='heat_treatment_sub_form')
+        machining_sub_form = MachiningForm(request.POST, prefix='machining_sub_form')
 
         # Убеждаемся в валидности всех форм
         if form.is_valid() \
@@ -111,7 +146,8 @@ def add_primary_table(request):
                 and heat_treatment_sub_form.is_valid() \
                 and machining_sub_form.is_valid() \
                 and surfacing_sub_form.is_valid() \
-                and additional_surfacing_sub_form.is_valid():
+                and additional_surfacing_sub_form.is_valid() \
+                and final_surfacing_sub_form.is_valid():
 
             # Подготавливаем модель главной таблицы, но не коммитим её в бд.
             pt = form.save(commit=False)
@@ -125,8 +161,11 @@ def add_primary_table(request):
             # 2. Указываем Нашу дополнительную наплавку
             # 3. Сохраняем наплавку ещё раз
             pt.surfacing = surfacing_sub_form.save()
+
             if additional_surfacing_sub_form.cleaned_data['amount_of_material']:
                 pt.surfacing.additional_surfacing = additional_surfacing_sub_form.save()
+                if final_surfacing_sub_form.cleaned_data['amount_of_material']:
+                    pt.surfacing.final_surfacing = additional_surfacing_sub_form.save()
             pt.surfacing.save()
 
             pt.heat_treatment = heat_treatment_sub_form.save()
@@ -138,7 +177,7 @@ def add_primary_table(request):
         else:
             print(form.errors, gouging_sub_form.errors, surfacing_sub_form.errors,
                   heat_treatment_sub_form.errors, machining_sub_form.errors,
-                  additional_surfacing_sub_form.errors, )
+                  additional_surfacing_sub_form.errors, final_surfacing_sub_form.errors)
 
     return render(request, 'add_primary_table.html',
                   {
@@ -147,4 +186,5 @@ def add_primary_table(request):
                       'machining_sub_form': machining_sub_form,
                       'surfacing_sub_form': surfacing_sub_form,
                       'additional_surfacing_sub_form': additional_surfacing_sub_form,
+                      'final_surfacing_sub_form': final_surfacing_sub_form,
                   })
