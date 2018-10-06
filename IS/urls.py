@@ -5,6 +5,7 @@ app_name = 'IS'
 
 urlpatterns = [
     path('main/', views.Main.as_view(), name='main'),
+    # path('main/add', views.dynamic_fields_in_surfacing, name='add__'),
     path('main/<int:pk>/', views.Main.as_view(), name='main-update'),
     path('main/search/', views.search, name='search'),
 

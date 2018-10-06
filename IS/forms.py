@@ -88,6 +88,25 @@ class FinalSurfacingForm(forms.ModelForm):
                   'amount_of_material',)
 
 
+class MaterialForm(forms.Form):
+    """
+    Форма учета расхода материалов
+    """
+    # Типы расходников
+    CONSUMABLES = (
+        ('Ф', 'Проволока 1'),
+        ('D', 'Проволока 2'),
+        ('B', 'Проволока 3'),
+        ('C', 'Проволока 4'),
+        ('М', 'Проволока 5')
+    )
+    type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника',
+                                            initial='', required=False)
+    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
+                                            label='Количество наплавленного',
+                                            initial='', required=False)
+
+
 # Наплавка
 class SurfacingForm(forms.ModelForm):
     # Типы труда, с помощью которых осуществляться наплавка.

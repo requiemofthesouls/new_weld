@@ -1,3 +1,55 @@
-{% for surfacing_field in form.get_surfacing_child_fields %}
-    {{ surfacing_field }}
-{% endfor %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form method="post" action=".">
+    {% csrf_token %}
+
+    {{ link_formset.management_form }}
+
+    {% for link_form in link_formset %}
+        <div class="link-formset">
+            {{ link_form.type_of_consumables }}
+            {% if link_form.type_of_consumables.errors %}
+                {% for error in link_form.type_of_consumables.errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            {% endif %}
+
+            {{ link_form.amount_of_material }}
+            {% if link_form.amount_of_material.errors %}
+                {% for error in link_form.amount_of_material.errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    {% if link_formset.non_form_errors %}
+        {% for error in link_formset.non_form_errors %}
+            {{ error|escape }}
+        {% endfor %}
+    {% endif %}
+
+    <input type="submit" value="Update Profile" class="button"/>
+</form>
+
+{% block scripts %}
+<!-- Include formset plugin - including jQuery dependency -->
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>
+    $('.link-formset').formset({
+        addText: 'add link',
+        deleteText: 'remove'
+    });
+</script>
+
+{% endblock %}

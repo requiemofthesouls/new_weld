@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.db import IntegrityError, transaction
+from django.forms.formsets import formset_factory
+from django.shortcuts import redirect, render
 from django.views.generic import ListView
 
 from .forms import (
@@ -8,10 +11,12 @@ from .forms import (
     AdditionalSurfacingForm,
     HeatTreatmentForm,
     MachiningForm,
-    FinalSurfacingForm
+    FinalSurfacingForm,
+    MaterialForm
 )
 from .models import (
     PrimaryTable,
+    Surfacing
 )
 
 
@@ -188,3 +193,67 @@ def add_primary_table(request):
                       'additional_surfacing_sub_form': additional_surfacing_sub_form,
                       'final_surfacing_sub_form': final_surfacing_sub_form,
                   })
+
+
+def test_profile_settings(request):
+    """
+    Allows a user to update their own profile.
+    """
+    # user = request.user
+
+    # Create the formset, specifying the form and formset we want to use.
+    # LinkForm == MaterialForm
+    MaterialFormSet = formset_factory(MaterialForm)
+
+    # Get our existing link data for this user.  This is used as initial data.
+    # user_links = UserLink.objects.filter(user=user).order_by('anchor')
+    # link_data = [{'anchor': l.anchor, 'url': l.url}
+    #                 for l in user_links]
+
+    if request.method == 'POST':
+        # profile_form == surfacing_form
+        # link_formset == material_formset
+        surfacing_form = SurfacingForm(request.POST)
+        material_formset = MaterialFormSet(request.POST)
+
+        if surfacing_form.is_valid() and material_formset.is_valid():
+            # Save user info
+            # user.first_name = profile_form.cleaned_data.get('first_name')
+            # user.last_name = profile_form.cleaned_data.get('last_name')
+            # user.save()
+
+            # Now save the data for each form in the formset
+            new_materials = []
+
+            for material_form in material_formset:
+                type_of_consumables = material_form.cleaned_data.get('type_of_consumables')
+                amount_of_material = material_form.cleaned_data.get('amount_of_material')
+
+                if type_of_consumables and amount_of_material:
+                    new_materials.append(Surfacing(type_of_consumables=type_of_consumables,
+                                                   amount_of_material=amount_of_material))
+
+            try:
+                with transaction.atomic():
+                    # Replace the old with the new
+                    Surfacing.objects.filter(type_of_consumables=type_of_consumables,
+                                             amount_of_material=amount_of_material).delete()
+                    Surfacing.objects.bulk_create(new_materials)
+
+                    # And notify our users that it worked
+                    messages.success(request, 'You have updated your profile.')
+
+            except IntegrityError:  # If the transaction failed
+                messages.error(request, 'There was an error saving your profile.')
+                return redirect(reverse('profile-settings'))
+
+    else:
+        profile_form = ProfileForm(user=user)
+        link_formset = LinkFormSet(initial=link_data)
+
+    context = {
+        'profile_form': profile_form,
+        'link_formset': link_formset,
+    }
+
+    return render(request, 'our_template.html', context)
