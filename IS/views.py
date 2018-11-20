@@ -100,7 +100,10 @@ def add_heat_treatment(request):
 
         if form.is_valid():
             heat_treatment = form.save(commit=True)
-            print('Созданная термообработка:', heat_treatment, heat_treatment.start_date)
+            print(
+                'Созданная термообработка:',
+                heat_treatment,
+                heat_treatment.start_date)
             return redirect('/')
         else:
             print(form.errors)
@@ -116,7 +119,10 @@ def add_machining(request):
 
         if form.is_valid():
             machining = form.save(commit=True)
-            print('Созданная механообработка:', machining, machining.start_date)
+            print(
+                'Созданная механообработка:',
+                machining,
+                machining.start_date)
             return redirect('/')
         else:
             print(form.errors)
@@ -129,21 +135,30 @@ def add_primary_table(request):
     form = PrimaryTableForm(prefix="primary_table_form")
     gouging_sub_form = GougingForm(prefix='gouging_sub_form')
     surfacing_sub_form = SurfacingForm(prefix='surfacing_sub_form')
-    additional_surfacing_sub_form = AdditionalSurfacingForm(prefix='additional_surfacing_sub_form')
-    final_surfacing_sub_form = FinalSurfacingForm(prefix='final_surfacing_sub_form')
-    heat_treatment_sub_form = HeatTreatmentForm(prefix='heat_treatment_sub_form')
+    additional_surfacing_sub_form = AdditionalSurfacingForm(
+        prefix='additional_surfacing_sub_form')
+    final_surfacing_sub_form = FinalSurfacingForm(
+        prefix='final_surfacing_sub_form')
+    heat_treatment_sub_form = HeatTreatmentForm(
+        prefix='heat_treatment_sub_form')
     machining_sub_form = MachiningForm(prefix='machining_sub_form')
 
     # Проверяем метод
     if request.POST:
-        # Загружаем наши формы снова, указываем в аргументе какой метод используем
+        # Загружаем наши формы снова, указываем в аргументе какой метод
+        # используем
         form = PrimaryTableForm(request.POST, prefix="primary_table_form")
         gouging_sub_form = GougingForm(request.POST, prefix='gouging_sub_form')
-        surfacing_sub_form = SurfacingForm(request.POST, prefix='surfacing_sub_form')
-        additional_surfacing_sub_form = AdditionalSurfacingForm(request.POST, prefix='additional_surfacing_sub_form')
-        final_surfacing_sub_form = FinalSurfacingForm(request.POST, prefix='final_surfacing_sub_form')
-        heat_treatment_sub_form = HeatTreatmentForm(request.POST, prefix='heat_treatment_sub_form')
-        machining_sub_form = MachiningForm(request.POST, prefix='machining_sub_form')
+        surfacing_sub_form = SurfacingForm(
+            request.POST, prefix='surfacing_sub_form')
+        additional_surfacing_sub_form = AdditionalSurfacingForm(
+            request.POST, prefix='additional_surfacing_sub_form')
+        final_surfacing_sub_form = FinalSurfacingForm(
+            request.POST, prefix='final_surfacing_sub_form')
+        heat_treatment_sub_form = HeatTreatmentForm(
+            request.POST, prefix='heat_treatment_sub_form')
+        machining_sub_form = MachiningForm(
+            request.POST, prefix='machining_sub_form')
 
         # Убеждаемся в валидности всех форм
         if form.is_valid() \
@@ -180,19 +195,25 @@ def add_primary_table(request):
             pt.save()
             return redirect('/')
         else:
-            print(form.errors, gouging_sub_form.errors, surfacing_sub_form.errors,
-                  heat_treatment_sub_form.errors, machining_sub_form.errors,
-                  additional_surfacing_sub_form.errors, final_surfacing_sub_form.errors)
+            print(
+                form.errors,
+                gouging_sub_form.errors,
+                surfacing_sub_form.errors,
+                heat_treatment_sub_form.errors,
+                machining_sub_form.errors,
+                additional_surfacing_sub_form.errors,
+                final_surfacing_sub_form.errors)
 
-    return render(request, 'add_primary_table.html',
-                  {
-                      'form': form, 'gouging_sub_form': gouging_sub_form,
-                      'heat_treatment_sub_form': heat_treatment_sub_form,
-                      'machining_sub_form': machining_sub_form,
-                      'surfacing_sub_form': surfacing_sub_form,
-                      'additional_surfacing_sub_form': additional_surfacing_sub_form,
-                      'final_surfacing_sub_form': final_surfacing_sub_form,
-                  })
+    return render(request,
+                  'add_primary_table.html',
+                  {'form': form,
+                   'gouging_sub_form': gouging_sub_form,
+                   'heat_treatment_sub_form': heat_treatment_sub_form,
+                   'machining_sub_form': machining_sub_form,
+                   'surfacing_sub_form': surfacing_sub_form,
+                   'additional_surfacing_sub_form': additional_surfacing_sub_form,
+                   'final_surfacing_sub_form': final_surfacing_sub_form,
+                   })
 
 
 def test_profile_settings(request):
@@ -226,25 +247,31 @@ def test_profile_settings(request):
             new_materials = []
 
             for material_form in material_formset:
-                type_of_consumables = material_form.cleaned_data.get('type_of_consumables')
-                amount_of_material = material_form.cleaned_data.get('amount_of_material')
+                type_of_consumables = material_form.cleaned_data.get(
+                    'type_of_consumables')
+                amount_of_material = material_form.cleaned_data.get(
+                    'amount_of_material')
 
                 if type_of_consumables and amount_of_material:
-                    new_materials.append(Surfacing(type_of_consumables=type_of_consumables,
-                                                   amount_of_material=amount_of_material))
+                    new_materials.append(
+                        Surfacing(
+                            type_of_consumables=type_of_consumables,
+                            amount_of_material=amount_of_material))
 
             try:
                 with transaction.atomic():
                     # Replace the old with the new
-                    Surfacing.objects.filter(type_of_consumables=type_of_consumables,
-                                             amount_of_material=amount_of_material).delete()
+                    Surfacing.objects.filter(
+                        type_of_consumables=type_of_consumables,
+                        amount_of_material=amount_of_material).delete()
                     Surfacing.objects.bulk_create(new_materials)
 
                     # And notify our users that it worked
                     messages.success(request, 'You have updated your profile.')
 
             except IntegrityError:  # If the transaction failed
-                messages.error(request, 'There was an error saving your profile.')
+                messages.error(
+                    request, 'There was an error saving your profile.')
                 return redirect(reverse('profile-settings'))
 
     else:

@@ -44,11 +44,17 @@ class AdditionalSurfacingForm(forms.ModelForm):
         ('C', 'Проволока 4'),
         ('М', 'Проволока 5')
     )
-    type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника',
-                                            initial='D', required=False)
-    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
-                                            label='Количество наплавленного',
-                                            initial='', required=False)
+    type_of_consumables = forms.ChoiceField(
+        choices=CONSUMABLES,
+        label='Тип расходника',
+        initial='D',
+        required=False)
+    amount_of_material = forms.IntegerField(
+        min_value=0,
+        help_text='Количество наплавленного',
+        label='Количество наплавленного',
+        initial='',
+        required=False)
 
     class Meta:
         model = AdditionalSurfacing
@@ -75,11 +81,17 @@ class FinalSurfacingForm(forms.ModelForm):
         ('C', 'Проволока 4'),
         ('М', 'Проволока 5')
     )
-    type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника',
-                                            initial='D', required=False)
-    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
-                                            label='Количество наплавленного',
-                                            initial='', required=False)
+    type_of_consumables = forms.ChoiceField(
+        choices=CONSUMABLES,
+        label='Тип расходника',
+        initial='D',
+        required=False)
+    amount_of_material = forms.IntegerField(
+        min_value=0,
+        help_text='Количество наплавленного',
+        label='Количество наплавленного',
+        initial='',
+        required=False)
 
     class Meta:
         model = AdditionalSurfacing
@@ -100,11 +112,17 @@ class MaterialForm(forms.Form):
         ('C', 'Проволока 4'),
         ('М', 'Проволока 5')
     )
-    type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника',
-                                            initial='', required=False)
-    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
-                                            label='Количество наплавленного',
-                                            initial='', required=False)
+    type_of_consumables = forms.ChoiceField(
+        choices=CONSUMABLES,
+        label='Тип расходника',
+        initial='',
+        required=False)
+    amount_of_material = forms.IntegerField(
+        min_value=0,
+        help_text='Количество наплавленного',
+        label='Количество наплавленного',
+        initial='',
+        required=False)
 
 
 # Наплавка
@@ -126,10 +144,13 @@ class SurfacingForm(forms.ModelForm):
         ('C', 'Проволока 4'),
         ('М', 'Проволока 5')
     )
-    type_of_consumables = forms.ChoiceField(choices=CONSUMABLES, label='Тип расходника')
+    type_of_consumables = forms.ChoiceField(
+        choices=CONSUMABLES, label='Тип расходника')
 
-    amount_of_material = forms.IntegerField(min_value=0, help_text='Количество наплавленного',
-                                            label='Количество наплавленного')
+    amount_of_material = forms.IntegerField(
+        min_value=0,
+        help_text='Количество наплавленного',
+        label='Количество наплавленного')
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
             'id': 'surfacing_pickdatetime',
@@ -149,8 +170,10 @@ class SurfacingForm(forms.ModelForm):
 
 # Термообработка
 class HeatTreatmentForm(forms.ModelForm):
-    final_hardness = forms.IntegerField(min_value=0, help_text='Итоговая твердость',
-                                        label='Итоговая твердость')
+    final_hardness = forms.IntegerField(
+        min_value=0,
+        help_text='Итоговая твердость',
+        label='Итоговая твердость')
     start_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
             'id': 'heat_treatment_pickdatetime',
@@ -183,7 +206,10 @@ class MachiningForm(forms.ModelForm):
 
 # Главная таблица
 class PrimaryTableForm(forms.ModelForm):
-    number = forms.IntegerField(min_value=0, help_text='Номер оснастки', label="Номер оснастки")
+    number = forms.IntegerField(
+        min_value=0,
+        help_text='Номер оснастки',
+        label="Номер оснастки")
     letter = forms.CharField(help_text='Литера', label='Литера')
     received_stamp_date = forms.DateTimeField(widget=forms.TextInput(
         attrs={
@@ -194,8 +220,17 @@ class PrimaryTableForm(forms.ModelForm):
         initial=datetime.now().strftime("%d.%m.%Y %H:%M"),
         label='Дата поступления штампа')
     customer = forms.CharField(help_text='Заказчик', label='Заказчик')
-    scheme = forms.BooleanField(help_text='Чертёж', label='Чертёж', required=False, initial=False)
+    scheme = forms.BooleanField(
+        help_text='Чертёж',
+        label='Чертёж',
+        required=False,
+        initial=False)
 
     class Meta:
         model = PrimaryTable
-        fields = ('number', 'letter', 'received_stamp_date', 'customer', 'scheme')
+        fields = (
+            'number',
+            'letter',
+            'received_stamp_date',
+            'customer',
+            'scheme')

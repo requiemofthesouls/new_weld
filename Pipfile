@@ -5,11 +5,12 @@ name = "pypi"
 
 [packages]
 "django-bootstrap4" = "==0.0.6"
-django-widget-tweaks = "==1.4.2"
+django - widget - tweaks = "==1.4.2"
 pytz = "==2018.4"
-Django = "==2.0.6"
+Django = "==2.0.8"
+"autopep8" = "*"
 
-[dev-packages]
+[dev - packages]
 
 [requires]
 python_version = "3.6"

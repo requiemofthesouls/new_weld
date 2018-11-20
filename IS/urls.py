@@ -14,6 +14,9 @@ urlpatterns = [
     # path('main/add_surfacing', views.add_surfacing, name='add_surfacing'),
     # path('main/add_heat_treatment', views.add_heat_treatment, name='add_heat_treatment'),
     # path('main/add_machining', views.add_machining, name='add_machining'),
-    path('main/add_primary_table', views.add_primary_table, name='add_primary_table')
+    path(
+        'main/add_primary_table',
+        views.add_primary_table,
+        name='add_primary_table')
 
 ]

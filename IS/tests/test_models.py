@@ -14,11 +14,21 @@ class PrimaryTableModelTest(TestCase):
         # Создаём связанные объекты
         Gouging.objects.create(amount_of_material=2,
                                start_date=datetime.now() + timedelta(hours=2))
-        Surfacing.objects.create(amount_of_material=6, type_of_consumables='D',
-                                 start_date=datetime.now() + timedelta(hours=4))
-        HeatTreatment.objects.create(final_hardness=402,
-                                     start_date=datetime.now() + timedelta(hours=6))
-        Machining.objects.create(start_date=datetime.now() + timedelta(hours=8))
+        Surfacing.objects.create(
+            amount_of_material=6,
+            type_of_consumables='D',
+            start_date=datetime.now() +
+            timedelta(
+                hours=4))
+        HeatTreatment.objects.create(
+            final_hardness=402,
+            start_date=datetime.now() +
+            timedelta(
+                hours=6))
+        Machining.objects.create(
+            start_date=datetime.now() +
+            timedelta(
+                hours=8))
 
         # Создаём объект оснастки который будем использовать в тестах,
         # но не будем изменять
@@ -33,7 +43,9 @@ class PrimaryTableModelTest(TestCase):
         print("Method: test_primary_table_label")
         primary_table = PrimaryTable.objects.get(id=1)
         primary_table_label = primary_table.__str__()
-        self.assertEquals(primary_table_label, 'Главная таблица (№1) для Паша Техник')
+        self.assertEquals(
+            primary_table_label,
+            'Главная таблица (№1) для Паша Техник')
         print('Result:', primary_table_label)
 
     def test_dates(self):
@@ -51,6 +63,6 @@ class PrimaryTableModelTest(TestCase):
         heat_treatment_date = heat_treatment.start_date
         machining_date = machining.start_date
         self.assertTrue(True if primary_table_date < gouging_date and
-                                primary_table_date < surfacing_date and
-                                primary_table_date < heat_treatment_date and
-                                primary_table_date < machining_date else False)
+                        primary_table_date < surfacing_date and
+                        primary_table_date < heat_treatment_date and
+                        primary_table_date < machining_date else False)

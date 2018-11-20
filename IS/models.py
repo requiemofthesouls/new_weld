@@ -29,11 +29,8 @@ class AdditionalSurfacing(models.Model):
                                            null=True,
                                            default=""
                                            )
-    amount_of_material = models.PositiveIntegerField(verbose_name='Количество наплавленного',
-                                                     blank=True,
-                                                     null=True,
-                                                     default=""
-                                                     )
+    amount_of_material = models.PositiveIntegerField(
+        verbose_name='Количество наплавленного', blank=True, null=True, default="")
 
     def __str__(self):
         return 'Дополнительная наплавка (№%s)' % self.id
@@ -55,13 +52,14 @@ class Surfacing(models.Model):
     amount_of_material = models.PositiveIntegerField(
         verbose_name='Количество наплавленного')
     # Дополнительная наплавка
-    additional_surfacing = models.ForeignKey(AdditionalSurfacing,
-                                             related_name='additional_surfacing',
-                                             on_delete=models.CASCADE,
-                                             verbose_name='Дополнительная наплавка',
-                                             blank=True,
-                                             null=True,
-                                             default=None)
+    additional_surfacing = models.ForeignKey(
+        AdditionalSurfacing,
+        related_name='additional_surfacing',
+        on_delete=models.CASCADE,
+        verbose_name='Дополнительная наплавка',
+        blank=True,
+        null=True,
+        default=None)
     final_surfacing = models.ForeignKey(AdditionalSurfacing,
                                         related_name='final_surfacing',
                                         on_delete=models.CASCADE,
@@ -86,7 +84,8 @@ class Surfacing(models.Model):
 
 # Термообработка
 class HeatTreatment(models.Model):
-    final_hardness = models.PositiveIntegerField(verbose_name='Итоговая твердость')
+    final_hardness = models.PositiveIntegerField(
+        verbose_name='Итоговая твердость')
     start_date = models.DateTimeField(verbose_name='Дата погрузки в печь')
 
     def __str__(self):
@@ -130,7 +129,8 @@ class PrimaryTable(models.Model):
                                   on_delete=models.CASCADE,
                                   verbose_name='Механообработка',
                                   null=True, default=None, blank=True)
-    received_stamp_date = models.DateTimeField(verbose_name='Дата поступления штампа')
+    received_stamp_date = models.DateTimeField(
+        verbose_name='Дата поступления штампа')
     customer = models.CharField(verbose_name='Заказчик', max_length=128)
     scheme = models.BooleanField(verbose_name='Чертёж')
 
