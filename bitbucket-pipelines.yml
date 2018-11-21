@@ -13,6 +13,7 @@ pipelines:
           - pip
         script: # Modify the commands below to build your repository.
           - echo 'Clone all the things!'
+          - pip install autopep8
           - autopep8 --aggressive --aggressive -r -d *
     - step:
         name: testing...
