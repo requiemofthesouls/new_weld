@@ -6,7 +6,7 @@
 image: python:3.6.1
 
 pipelines:
-  default:
+  parallel:
     - step:
         name: autopep8
         caches:
