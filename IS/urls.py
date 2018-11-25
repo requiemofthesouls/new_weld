@@ -1,6 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from IS import views
+from IS.views import HeatTreatmentList, HeatTreatmentDetail
 
+handler404 = 'IS.views.page_not_found'
 app_name = 'IS'
 
 urlpatterns = [
@@ -17,6 +19,10 @@ urlpatterns = [
     path(
         'main/add_primary_table',
         views.add_primary_table,
-        name='add_primary_table')
+        name='add_primary_table'),
+
+    path('add', HeatTreatmentList.as_view(), name='add'),
+    path('detail/<int:pk>', HeatTreatmentDetail.as_view(), name='detail'),
+
 
 ]

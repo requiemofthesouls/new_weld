@@ -1,8 +1,11 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import IntegrityError, transaction
 from django.forms.formsets import formset_factory
-from django.shortcuts import redirect, render
-from django.views.generic import ListView
+from django.shortcuts import redirect, render, render_to_response
+from django.utils.decorators import method_decorator
+from django.views.generic import (ListView, UpdateView)
 
 from .forms import (
     PrimaryTableForm,
@@ -16,8 +19,8 @@ from .forms import (
 )
 from .models import (
     PrimaryTable,
-    Surfacing
-)
+    Surfacing,
+    HeatTreatment)
 
 
 def index(request):
@@ -284,3 +287,36 @@ def test_profile_settings(request):
     }
 
     return render(request, 'our_template.html', context)
+
+
+class HeatTreatmentList(ListView):
+    model = HeatTreatment
+    queryset = HeatTreatment.objects.order_by('-start_date')
+    template_name = 'heat_treatment_list.html'
+    paginate_by = 10
+    context_object_name = 'heat_treatment'
+
+
+class HeatTreatmentDetail(PermissionRequiredMixin, UpdateView):
+    model = HeatTreatment
+    context_object_name = 'heat_treatment'
+    template_name = 'heat_treatment_detail.html'
+    fields = ['id', 'final_hardness', 'start_date']
+    template_name_suffix = '_update_form'
+    permission_required = ('IS.change_heattreatment',
+                           'IS.view_heattreatment',
+                           'IS.add_heattreatment')
+
+    def test_func(self):
+        return self.request.user.has_perm('IS.can_change_heat_treatment')
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return redirect('app/add')
+
+
+def page_not_found(request, exception, template_name='404.html'):
+    response = render_to_response("404.html")
+    response.status_code = 404
+    return response
