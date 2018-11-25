@@ -35,6 +35,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'IS:add_primary_table' %}">Добавить главную таблицу</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'IS:add' %}">Добавить термообработку</a>
+            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="{% url 'IS:search' %}" method="get">
             {% csrf_token %}
@@ -58,6 +61,13 @@
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/popper.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".clickable-row").click(function () {
+                window.location = $(this).data("href");
+            });
+        });
+    </script>
 {% endblock %}
 </body>
 </html>
