@@ -1,15 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
-from datetime import datetime
 import csv
 from datetime import datetime
-from django.contrib.auth import get_user_model, get_permission_codename
-from IS.models import (
-    AdditionalSurfacing,
-    Surfacing,
-    Gouging,
-    HeatTreatment,
-    Machining,
-    PrimaryTable)
+from IS.models import HeatTreatment
 
 
 class Command(BaseCommand):
@@ -28,7 +20,7 @@ class Command(BaseCommand):
         try:
             filename = options['file']
             with open(filename, 'r') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+                spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
                 for row in spamreader:
                     hardness = row[0]
                     date = datetime.strptime(row[1], '%d %m %Y %H:%M')

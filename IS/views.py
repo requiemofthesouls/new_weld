@@ -307,9 +307,6 @@ class HeatTreatmentDetail(PermissionRequiredMixin, UpdateView):
                            'IS.view_heattreatment',
                            'IS.add_heattreatment')
 
-    def test_func(self):
-        return self.request.user.has_perm('IS.can_change_heat_treatment')
-
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
