@@ -17,4 +17,4 @@ RUN git clone https://github.com/requiemofthesouls/new_weld.git .
 
 RUN ls -la
 RUN pwd
-RUN cp requirements.txt main/requirements.txt
+RUN cp app/requirements.txt app/main/requirements.txt
